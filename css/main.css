@@ -1,1 +1,27 @@
-/* TODO: Style dena hai bhai */
+body {
+    margin: 10px;
+}
+
+h3 {
+    text-align: center;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    height: auto;
+    border-width: 2px;
+}
+
+.parent {
+    border: #ff4e50 2px solid;
+    border-radius: 8px;
+    margin-top: 1em;
+}
+
+.name, .college, .number, .email, .cycle, .btnYes, .btnNo {
+    margin-left: 1em;
+    margin-top: 5px;
+}

@@ -91,11 +91,12 @@ function onYesClick(element, lock_state) {
 }
 
 function onNoClick(element, lock_state) {
-    var children = element.parent.children;
+    var children = element.parentElement.children;
     var name = children[0].innerText.replace(" ", "%20");
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
+    var cycle_number = children[4].innerText;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, -1);
     console.log(obj);
     getData("service", obj);
