@@ -10,15 +10,15 @@
     $email = (isset($_GET["email"]))? $_GET["email"]: NULL;
     $lock_state = (isset($_GET["lock_state"]))? $_GET["lock_state"]: NULL;
 
-    $sql_stand = "SELECT * FROM REQUEST WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0";
-    $data_stand = query($sql_stand, $name, $college, $number, $email, $lock_state);
+    $sql_request = "SELECT * FROM REQUEST WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0";
+    $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
 
     $send = array("accepted" => 1);
-    if($data_stand != NULL) {
-        $send["accepted"] = $data_stand[0]["accepted"];
+    if($data_request != NULL) {
+        $send["accepted"] = $data_request[0]["accepted"];
         echo json_encode($send);
     } else {
-        $sql_service = "SELECT start,end FROM service WHERE name=? AND college=? AND number=? AND email=? AND ongoing=1";
+        $sql_service = "SELECT start,end FROM service WHERE name=? AND college=? AND number=? AND email=?";
         $data_service = query($sql_service, $name, $college, $number, $email);
         $send["start"] = $data_service[count($data_service) - 1]["start"];
         $send["end"] = $data_service[count($data_service) - 1]["end"];
