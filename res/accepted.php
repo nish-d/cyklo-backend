@@ -10,18 +10,18 @@
     $email = (isset($_GET["email"]))? $_GET["email"]: NULL;
     $lock_state = (isset($_GET["lock_state"]))? $_GET["lock_state"]: NULL;
 
-    $sql_request = "SELECT * FROM REQUEST WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0 OR accepted=-1";
+    $sql_request = "SELECT * FROM REQUEST WHERE name=? AND college=? AND number=? AND email=? AND lock_state=?";
     $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
+    $latest = $data_request[count($data_request) - 1];
 
-    $send = array("accepted" => 1);
-    if($data_request != NULL || $data_request[0]["accepted"] == -1) {
-        $send["accepted"] = $data_request[0]["accepted"];
-        echo json_encode($send);
-    } else {
+    $send = array("accepted" => $latest["accepted"]);
+
+    if($send["accepted"] == 1) {
         $sql_service = "SELECT start,end FROM service WHERE name=? AND college=? AND number=? AND email=?";
         $data_service = query($sql_service, $name, $college, $number, $email);
         $send["start"] = $data_service[count($data_service) - 1]["start"];
         $send["end"] = $data_service[count($data_service) - 1]["end"];
-        echo json_encode($send);
     }
+
+    echo json_encode($send);
 ?>
