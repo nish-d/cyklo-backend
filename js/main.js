@@ -129,7 +129,7 @@ function dealWithData(data, lock_state, id, obj) {
     else {
         if(id == "amount") {
             var msg = "Minutes = " + data.minutes + " mins\n";
-            msg +=  "Amount = Rs. 10 + Rs. " + data.amount + " = Rs. " + (10 + data.amount);
+            msg +=  "Amount = " + data.amount;
             var con = confirm(msg);
             if(con) {
                 getData("service", obj);
