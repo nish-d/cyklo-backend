@@ -18,15 +18,9 @@
 
     $send = array("minutes" => $minutes);
 
-    $minutes -= 30; //For initial half hours, Rs. 10
-    $parts = (int) ($minutes / 30);
-    $overhead = $minutes % 30;
+    $parts = (int) ($minutes / 15);
+    $amount = ($parts * 5) + 5;//Rs. 5 per part [= 15 mins] + 5 (for first 15 mins)
 
-    $send["overhead"] = $overhead;
-
-    if($overhead >= 5) {
-        $parts++;
-    }
-    $send["amount"] = $parts * 5;//Rs. 5 per part [= half hour]
+    $send["amount"] =$amount;
     echo json_encode($send);
 ?>
