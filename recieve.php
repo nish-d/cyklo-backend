@@ -9,7 +9,7 @@
     lock_state(1) = lock request
     */
 
-    $sql = "SELECT * FROM REQUEST WHERE request_done=0";
+    $sql = "SELECT * FROM request WHERE request_done=0";
     $data = query($sql);
     foreach ($data as $data_sub) {
         //send unlock request

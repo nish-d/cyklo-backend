@@ -1,5 +1,7 @@
 var source = new EventSource("recieve.php");
 
+var specialCycleNumbers=["007","111","420","555","911"];
+
 source.addEventListener("request_unlock", function(event) {
     var array = event.data.split("\n");
     for(var i = 0; i < array.length; i++) {
@@ -37,7 +39,7 @@ function createItem(obj, lock_state) {
 
     var cycle_number = document.createElement("p");
     cycle_number.className = "cycle";
-    cycle_number.appendChild(document.createTextNode(obj.cycle_number));
+    cycle_number.appendChild(document.createTextNode(specialCycleNumbers[obj.cycle_number-1]));
 
     var btnYes = document.createElement("button");
     btnYes.className = "btnYes";
@@ -76,7 +78,7 @@ function onYesClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycle_number = children[4].innerText;
+    var cycle_number =specialCycleNumbers.indexOf(children[4].innerText)+1;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, 1);
     console.log(obj);
     switch (lock_state) {
@@ -96,7 +98,7 @@ function onNoClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycle_number = children[4].innerText;
+    var cycle_number = specialCycleNumbers.indexOf(children[4].innerText)+1;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, -1);
     console.log(obj);
     getData("service", obj);

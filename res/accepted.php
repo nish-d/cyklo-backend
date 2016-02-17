@@ -10,9 +10,12 @@
     $email = (isset($_GET["email"]))? $_GET["email"]: NULL;
     $lock_state = (isset($_GET["lock_state"]))? $_GET["lock_state"]: NULL;
 
-    $sql_request = "SELECT * FROM REQUEST WHERE name=? AND college=? AND number=? AND email=? AND lock_state=?";
+    $sql_request = "SELECT * FROM request WHERE name=? AND college=? AND number=? AND email=? AND lock_state=?";
+    //echo $sql_request;
     $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
     $latest = $data_request[count($data_request) - 1];
+
+    //var_dump($data_request);
 
     $send = array("accepted" => $latest["accepted"]);
 

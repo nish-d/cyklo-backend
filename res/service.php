@@ -14,9 +14,21 @@
     $lock_state = $_GET["lock_state"];
     $accepted = $_GET["accepted"];
 
+    $stand_name = "alpha";
+    $sql_cycles = "SELECT cycles_available, cycles FROM stands WHERE name=?";
+    $data_cycles = query($sql_cycles, $stand_name)[0];
+    $cycles_available = $data_cycles["cycles_available"];
+    $cycles = $data_cycles["cycles"];
+
     if($accepted == -1) {
         $sql_request = "UPDATE request SET accepted=-1 WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0";
         $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
+
+        $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
+        $cycles_available += 1;
+        $cycles[$cycle_number - 1] = "1";
+        $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
+
     }
 
     //If accepted
@@ -25,11 +37,6 @@
     $sql_request = "UPDATE request SET accepted=1 WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0";
     $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
 
-    $stand_name = "alpha";
-    $sql_cycles = "SELECT cycles_available, cycles FROM stands WHERE name=?";
-    $data_cycles = query($sql_cycles, $stand_name)[0];
-    $cycles_available = $data_cycles["cycles_available"];
-    $cycles = $data_cycles["cycles"];
     $error = 0;
 
     $time = new DateTime(NULL, new DateTimeZone('Asia/Kolkata'));
@@ -41,10 +48,6 @@
 
         $sql_service = "INSERT INTO service (name, college, number, email, start, ongoing, cycle_number) VALUES (?,?,?,?,?,1,?)";
         $data_service = query($sql_service, $name, $college, $number, $email, $start->format("Y-m-d H:i:s"), $cycle_number);
-
-        $cycles[$cycle_number - 1] = "0";
-        $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
-        $data_stands = query($sql_stands, $cycles_available - 1, $cycles, $stand_name);
 
         $send["error"] = ($data_service || $data_stands)? 1: 0;//if either are NULL
     }

@@ -19,13 +19,15 @@
     $sql_stands = "SELECT * FROM stands WHERE name=?";
     $data_stands = query($sql_stands, $stand_name)[0];
 
+    $cycles = $data_stands["cycles"];
+    $cycles_available = $data_stands["cycles_available"];
+
     $send = array("name" => $data_stands["name"],
                 "cycle_strength" => $data_stands["cycle_strength"],
-                "cycles_available" => $data_stands["cycles_available"],
-                "cycles" => $data_stands["cycles"],
+                "cycles_available" => $cycles_available,
+                "cycles" => $cycles,
                 "error" => 0 /* default no error*/ );
 
-    $cycles = $send["cycles"];
     //request data
     if ($name === NULL || $college === NULL
         || $number === NULL || $email === NULL || $lock_state === NULL) {
@@ -40,6 +42,12 @@
     else {
         if($lock_state == 0) {
             $cycle_number = stripos($cycles, "1") + 1;
+            $cycles_available -= 1;
+            $cycles[$cycle_number - 1] = "0";
+            $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
+            $data_stands = query($sql_stands, $cycles_available, $cycles, $stand_name);
+            $send["cycles_available"] = $cycles_available;
+            $send["cycles"] = $cycles;
         }
 
         $send["cycle_number"] = $cycle_number;

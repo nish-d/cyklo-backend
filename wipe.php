@@ -1,7 +1,7 @@
 <?php
     require("res/functions.php");
 
-    $sql = "UPDATE stands SET cycles_available=10, cycles='1111111111' WHERE 1";
+    $sql = "UPDATE stands SET cycle_strength=5, cycles_available=5, cycles='11111' WHERE 1";
     $data = query($sql);
 
     $sql = "DELETE FROM request WHERE 1";
