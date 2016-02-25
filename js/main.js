@@ -10,7 +10,6 @@ source.addEventListener("request_unlock", function(event) {
 }, false);
 
 source.addEventListener("request_lock", function(event) {
-    //TODO: lock request event listener
     var array = event.data.split("\n");
     for(var i = 0; i < array.length; i++) {
         createItem(JSON.parse(array[i]), "lock");
@@ -103,13 +102,12 @@ function onNoClick(element, lock_state) {
     console.log(obj);
     getData("service", obj);
     element.parentElement.remove();
-    // TODO: onNoClick
 }
 
 function getData(id, obj) {
     var send = "res/" + id + ".php?";
     for(var i in obj)
-        // TODO: if(obj[i])
+        // TODO: if(obj[i]) Checking if obj has data in it (just making it more secure, unseen scenario)
               send += i + '=' + obj[i] + '&';
 
     console.log(send);
