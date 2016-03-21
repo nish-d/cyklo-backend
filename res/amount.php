@@ -5,6 +5,7 @@
     $college = $_GET["college"];
     $number = $_GET["number"];
     $email = $_GET["email"];
+    $cycle_type = $_GET["cycle_type"];
 
 
     $sql_service = "SELECT start FROM service WHERE name=? AND college=? AND number=? AND email=? AND ongoing=1";
@@ -18,8 +19,13 @@
 
     $send = array("minutes" => $minutes);
 
-    $parts = (int) ($minutes / 15);
-    $amount = ($parts * 5) + 5;//Rs. 5 per part [= 15 mins] + 5 (for first 15 mins)
+    //rate card
+    //normal(0)    |    Rs. 10 per 30 mins
+    //premium(1)   |    Rs. 20 per 30 mins
+    $rate = ($cycle_type == 0) ? 10 : 20;
+
+    $parts = (int) ($minutes / 30);
+    $amount = ($parts * $rate) + $rate;
 
     $send["amount"] =$amount;
     echo json_encode($send);

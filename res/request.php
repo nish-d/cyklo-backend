@@ -11,12 +11,14 @@
     $email = (isset($_GET["email"]))? $_GET["email"]: NULL;
     $cycle_number = (isset($_GET["cycle_number"]))? $_GET["cycle_number"]: 0;
     $lock_state = (isset($_GET["lock_state"]))? $_GET["lock_state"]: NULL;
+    $cycle_type = (isset($_GET["cycle_type"]))? $_GET["cycle_type"]: NULL;
 
 
     //stands data
     $stand_name = "alpha";
 
-    $sql_stands = "SELECT * FROM stands WHERE name=?";
+    $type = ($cycle_type == 0) ? "stands_normal" : "stands_premium";
+    $sql_stands = "SELECT * FROM " . $type . " WHERE name=?";
     $data_stands = query($sql_stands, $stand_name)[0];
 
     $cycles = $data_stands["cycles"];
@@ -26,6 +28,7 @@
                 "cycle_strength" => $data_stands["cycle_strength"],
                 "cycles_available" => $cycles_available,
                 "cycles" => $cycles,
+                "cycle_type" => $cycle_type,
                 "error" => 0 /* default no error*/ );
 
     //request data
@@ -44,16 +47,17 @@
             $cycle_number = stripos($cycles, "1") + 1;
             $cycles_available -= 1;
             $cycles[$cycle_number - 1] = "0";
-            $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
+            $sql_stands = "UPDATE " . $type . " SET cycles_available=?, cycles=? WHERE name=?";
             $data_stands = query($sql_stands, $cycles_available, $cycles, $stand_name);
             $send["cycles_available"] = $cycles_available;
             $send["cycles"] = $cycles;
+            if($cycle_type == 1) $cycle_number += 5;
         }
 
         $send["cycle_number"] = $cycle_number;
 
-        $sql_request = "INSERT INTO request (name, college, number, email, request_done, lock_state, cycle_number) VALUES (?,?,?,?,?,?,?)";
-        $data_request = query($sql_request, $name, $college, $number, $email, 0, $lock_state, $cycle_number);
+        $sql_request = "INSERT INTO request (name, college, number, email, request_done, lock_state, cycle_number, cycle_type) VALUES (?,?,?,?,?,?,?,?)";
+        $data_request = query($sql_request, $name, $college, $number, $email, 0, $lock_state, $cycle_number, $cycle_type);
     }
 
     echo json_encode($send);

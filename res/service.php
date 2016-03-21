@@ -13,9 +13,13 @@
     $cycle_number = $_GET["cycle_number"];
     $lock_state = $_GET["lock_state"];
     $accepted = $_GET["accepted"];
+    $cycle_type = $_GET["cycle_type"];
 
+    //stand details
     $stand_name = "alpha";
-    $sql_cycles = "SELECT cycles_available, cycles FROM stands WHERE name=?";
+    $type = ($cycle_type == 0) ? "stands_normal" : "stands_premium";
+
+    $sql_cycles = "SELECT cycles_available, cycles FROM ".$type." WHERE name=?";
     $data_cycles = query($sql_cycles, $stand_name)[0];
     $cycles_available = $data_cycles["cycles_available"];
     $cycles = $data_cycles["cycles"];
@@ -24,11 +28,13 @@
         $sql_request = "UPDATE request SET accepted=-1 WHERE name=? AND college=? AND number=? AND email=? AND lock_state=? AND accepted=0";
         $data_request = query($sql_request, $name, $college, $number, $email, $lock_state);
 
-        $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
-        $cycles_available += 1;
-        $cycles[$cycle_number - 1] = "1";
-        $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
-
+        if($lock_state == 0) {
+            $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
+            $cycles_available += 1;
+            if($cycle_type == 1) $cycle_number -= 5;
+            $cycles[$cycle_number - 1] = "1";
+            $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
+        }
     }
 
     //If accepted
@@ -59,8 +65,9 @@
         $sql_service = "UPDATE service SET end=?, ongoing=0 WHERE name=? AND college=? AND number=? AND email=?";
         $data_service = query($sql_service, $end->format("Y-m-d H:i:s"), $name, $college, $number, $email);
 
+        if($cycle_type == 1) $cycle_number -= 5;
         $cycles[$cycle_number - 1] = "1";
-        $sql_stands = "UPDATE stands SET cycles_available=?, cycles=? WHERE name=?";
+        $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
         $data_stands = query($sql_stands, $cycles_available + 1, $cycles, $stand_name);
 
         $send["error"] = ($data_service || $data_stands)? 1: 0;//if data is NULL or false

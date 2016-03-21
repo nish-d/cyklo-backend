@@ -21,7 +21,7 @@ button {
     margin-top: 1em;
 }
 
-.name, .college, .number, .email, .cycle, .btnYes, .btnNo {
+.name, .college, .number, .email, .cycle, .type, .btnYes, .btnNo {
     margin-left: 1em;
     margin-top: 5px;
 }

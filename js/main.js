@@ -1,6 +1,6 @@
 var source = new EventSource("recieve.php");
 
-var specialCycleNumbers=["007","111","420","555","911"];
+var specialCycleNumbers=["007","111","420","555","911", "CY*14", "CY*22"];
 
 source.addEventListener("request_unlock", function(event) {
     var array = event.data.split("\n");
@@ -40,6 +40,10 @@ function createItem(obj, lock_state) {
     cycle_number.className = "cycle";
     cycle_number.appendChild(document.createTextNode(specialCycleNumbers[obj.cycle_number-1]));
 
+    var cycle_type = document.createElement("p");
+    cycle_type.className = "type";
+    cycle_type.appendChild(document.createTextNode((obj.cycle_type === 0) ? "Normal" : "Premium"));
+
     var btnYes = document.createElement("button");
     btnYes.className = "btnYes";
     btnYes.setAttribute("onclick", "onYesClick(this, '" + lock_state + "')");
@@ -55,13 +59,14 @@ function createItem(obj, lock_state) {
     parent.appendChild(number);
     parent.appendChild(email);
     parent.appendChild(cycle_number);
+    parent.appendChild(cycle_type);
     parent.appendChild(btnYes);
     parent.appendChild(btnNo);
 
     document.getElementById(lock_state).appendChild(parent);
 }
 
-var userData = function(name, college, number, email, cycle_number, lock_state, accepted) {
+var userData = function(name, college, number, email, cycle_number, lock_state, accepted, cycle_type) {
     this.name = name;
     this.college = college;
     this.number = number;
@@ -69,6 +74,7 @@ var userData = function(name, college, number, email, cycle_number, lock_state, 
     this.cycle_number = cycle_number;
     this.lock_state = (lock_state == "unlock")? 0: 1;
     this.accepted = accepted;
+    this.cycle_type = cycle_type;
 };
 
 function onYesClick(element, lock_state) {
@@ -77,8 +83,9 @@ function onYesClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycle_number =specialCycleNumbers.indexOf(children[4].innerText)+1;
-    var obj = new userData(name, college, number, email, cycle_number, lock_state, 1);
+    var cycle_number = specialCycleNumbers.indexOf(children[4].innerText)+1;
+    var cycle_type = (children[5].innerText === "Normal") ? 0 : 1;
+    var obj = new userData(name, college, number, email, cycle_number, lock_state, 1, cycle_type);
     console.log(obj);
     switch (lock_state) {
         case "unlock":
@@ -98,7 +105,8 @@ function onNoClick(element, lock_state) {
     var number = children[2].innerText;
     var email = children[3].innerText;
     var cycle_number = specialCycleNumbers.indexOf(children[4].innerText)+1;
-    var obj = new userData(name, college, number, email, cycle_number, lock_state, -1);
+    var cycle_type = (children[5].innerText === "Normal") ? 0 : 1;
+    var obj = new userData(name, college, number, email, cycle_number, lock_state, -1, cycle_type);
     console.log(obj);
     getData("service", obj);
     element.parentElement.remove();
