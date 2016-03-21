@@ -51,7 +51,6 @@
             $data_stands = query($sql_stands, $cycles_available, $cycles, $stand_name);
             $send["cycles_available"] = $cycles_available;
             $send["cycles"] = $cycles;
-            if($cycle_type == 1) $cycle_number += 5;
         }
 
         $send["cycle_number"] = $cycle_number;

@@ -31,7 +31,6 @@
         if($lock_state == 0) {
             $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
             $cycles_available += 1;
-            if($cycle_type == 1) $cycle_number -= 5;
             $cycles[$cycle_number - 1] = "1";
             $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
         }
@@ -65,7 +64,6 @@
         $sql_service = "UPDATE service SET end=?, ongoing=0 WHERE name=? AND college=? AND number=? AND email=?";
         $data_service = query($sql_service, $end->format("Y-m-d H:i:s"), $name, $college, $number, $email);
 
-        if($cycle_type == 1) $cycle_number -= 5;
         $cycles[$cycle_number - 1] = "1";
         $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
         $data_stands = query($sql_stands, $cycles_available + 1, $cycles, $stand_name);

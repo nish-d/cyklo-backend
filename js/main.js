@@ -1,6 +1,7 @@
 var source = new EventSource("recieve.php");
 
-var specialCycleNumbers=["007","111","420","555","911", "CY*14", "CY*22"];
+var normalCycleNumbers=["007","111","420","555","911", "CY*14", "CY*22"];
+var premiumCycleNumbers=["CY*14", "CY*22"];
 
 source.addEventListener("request_unlock", function(event) {
     var array = event.data.split("\n");
@@ -38,7 +39,8 @@ function createItem(obj, lock_state) {
 
     var cycle_number = document.createElement("p");
     cycle_number.className = "cycle";
-    cycle_number.appendChild(document.createTextNode(specialCycleNumbers[obj.cycle_number-1]));
+    var cycleNumbers = (obj.cycle_type === 0) ? normalCycleNumbers: premiumCycleNumbers;
+    cycle_number.appendChild(document.createTextNode(cycleNumbers[obj.cycle_number-1]));
 
     var cycle_type = document.createElement("p");
     cycle_type.className = "type";
@@ -83,7 +85,8 @@ function onYesClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycle_number = specialCycleNumbers.indexOf(children[4].innerText)+1;
+    var cycleNumbers = (obj,cycle_type === 0) ? normalCycleNumbers: premiumCycleNumbers;
+    var cycle_number = cycleNumbers.indexOf(children[4].innerText)+1;
     var cycle_type = (children[5].innerText === "Normal") ? 0 : 1;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, 1, cycle_type);
     console.log(obj);
@@ -104,7 +107,8 @@ function onNoClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycle_number = specialCycleNumbers.indexOf(children[4].innerText)+1;
+    var cycleNumbers = (obj,cycle_type === 0) ? normalCycleNumbers: premiumCycleNumbers;
+    var cycle_number = cycleNumbers.indexOf(children[4].innerText)+1;
     var cycle_type = (children[5].innerText === "Normal") ? 0 : 1;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, -1, cycle_type);
     console.log(obj);
