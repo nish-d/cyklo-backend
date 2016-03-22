@@ -85,7 +85,7 @@ function onYesClick(element, lock_state) {
     var college = children[1].innerText;
     var number = children[2].innerText;
     var email = children[3].innerText;
-    var cycleNumbers = (obj,cycle_type === 0) ? normalCycleNumbers: premiumCycleNumbers;
+    var cycleNumbers = (obj.cycle_type === 0) ? normalCycleNumbers: premiumCycleNumbers;
     var cycle_number = cycleNumbers.indexOf(children[4].innerText)+1;
     var cycle_type = (children[5].innerText === "Normal") ? 0 : 1;
     var obj = new userData(name, college, number, email, cycle_number, lock_state, 1, cycle_type);
