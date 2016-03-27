@@ -1,6 +1,6 @@
 <?php
 
-require("functions.php");
+    require("functions.php");
 
     $name = $_GET["name"];
     $college = $_GET["college"];
@@ -15,6 +15,7 @@ require("functions.php");
     $stand_name = "alpha";
     $type = ($cycle_type == 0) ? "stands_normal" : "stands_premium";
 
+    // retreiving the data
     $sql_cycles = "SELECT cycles_available, cycles FROM ".$type." WHERE name=?";
     $data_cycles = query($sql_cycles, $stand_name)[0];
     $cycles_available = $data_cycles["cycles_available"];
