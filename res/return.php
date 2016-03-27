@@ -28,8 +28,7 @@ require("functions.php");
     $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
 
     // deleting the respective request entry in the request table
-
-    $sql_request = "DELETE FROM request WHERE name=?,email=?,number=?;";
-    $delete = query($sql_request,$name,$email,$number);
+    $sql_request = "DELETE FROM request WHERE name=?,email=?,number=?,cycle_type=? LIMIT 1;";
+    $delete = query($sql_request,$name,$email,$number,$cycle_type);
 
 ?>
