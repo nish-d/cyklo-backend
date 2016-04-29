@@ -1,0 +1,26 @@
+<html>
+
+    <head>
+        <script type="text/javascript" src="js/enable.js"></script>
+    </head>
+    <body>
+        <p>
+            Cycle Type 0 is for normal and 1 is for premium
+        </p>
+        <form onsubmit="return validate1()" action="res/enable_cycle.php" method="GET">
+    <table>
+			<tr> <td>Cycle type: </td><td><input type=number name='cycle_type' id="cycle_type" placeholder="Cycle Type" required> <br><br></td></tr>
+        </td><td><font class="validate" id="lcycle_type"></font><br><br></td></tr>
+
+        
+        <tr> <td>Cycle Number: </td><td><input type=number name='cycle_number' id="cycle_number" placeholder="Cycle Number" required> <br><br></td></tr>
+			</td><td><font class="validate" id="lcycle_number"></font><br><br></td></tr>
+
+			<tr><td><input type=submit name="submit" style="width:20em;"><br><br></td></tr>
+			</table>
+			</form>
+
+
+    </body>
+
+</html>
