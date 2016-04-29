@@ -5,7 +5,7 @@ function validate1() {
     document.getElementById("lcycle_number").innerHTML="";
     var validate = 0;
 
-				//phone validate
+				
                 if (cycle_type==1) {
                     if(cycle_number<0 || cycle_number>2){
                         validate=1;
