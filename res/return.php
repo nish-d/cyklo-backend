@@ -1,7 +1,7 @@
 <?php
 
     require("functions.php");
-
+    
     $name = $_GET["name"];
     $college = $_GET["college"];
     $number = $_GET["number"];
