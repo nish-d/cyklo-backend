@@ -28,4 +28,6 @@
         $cycles[$cycle_number - 1] = "1";  // 1 is the code for enable
         $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);    
     }
+
+    echo "<SCRIPT> window.history.back() </SCRIPT>"
 ?>
