@@ -22,14 +22,10 @@
 
 
     // updating the respective cycle table
-    $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
-    $cycles_available += 1;     //cycles_available is incremented by 1
-    $cycles[$cycle_number - 1] = "1";  // 1 is the code for enable
-    $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);
-
-    // deleting the respective request entry in the request table
-    $sql_request = "DELETE FROM request WHERE name=?,email=?,number=?,cycle_type=? LIMIT 1;";
-    $delete = query($sql_request,$name,$email,$number,$cycle_type);
-    
-
+    if($cycles[$cycle_number - 1] == "9"){  // error handling
+        $sql_stands = "UPDATE ".$type." SET cycles_available=?, cycles=? WHERE name=?";
+        $cycles_available += 1;     //cycles_available is incremented by 1
+        $cycles[$cycle_number - 1] = "1";  // 1 is the code for enable
+        $data_cycles = query($sql_stands, $cycles_available, $cycles, $stand_name);    
+    }
 ?>
